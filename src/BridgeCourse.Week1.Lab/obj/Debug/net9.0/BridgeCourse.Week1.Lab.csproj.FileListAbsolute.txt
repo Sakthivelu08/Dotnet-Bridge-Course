@@ -1,0 +1,14 @@
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\bin\Debug\net9.0\BridgeCourse.Week1.Lab.exe
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\bin\Debug\net9.0\BridgeCourse.Week1.Lab.deps.json
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\bin\Debug\net9.0\BridgeCourse.Week1.Lab.runtimeconfig.json
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\bin\Debug\net9.0\BridgeCourse.Week1.Lab.dll
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\bin\Debug\net9.0\BridgeCourse.Week1.Lab.pdb
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\obj\Debug\net9.0\BridgeCourse.Week1.Lab.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\obj\Debug\net9.0\BridgeCourse.Week1.Lab.AssemblyInfoInputs.cache
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\obj\Debug\net9.0\BridgeCourse.Week1.Lab.AssemblyInfo.cs
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\obj\Debug\net9.0\BridgeCourse.Week1.Lab.csproj.CoreCompileInputs.cache
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\obj\Debug\net9.0\BridgeCourse.Week1.Lab.dll
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\obj\Debug\net9.0\refint\BridgeCourse.Week1.Lab.dll
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\obj\Debug\net9.0\BridgeCourse.Week1.Lab.pdb
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\obj\Debug\net9.0\BridgeCourse.Week1.Lab.genruntimeconfig.cache
+C:\Users\sakthivelu.selvam\Downloads\Bridge Course\Dotnet-Bridge-Course\src\BridgeCourse.Week1.Lab\obj\Debug\net9.0\ref\BridgeCourse.Week1.Lab.dll
