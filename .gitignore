@@ -1,0 +1,27 @@
+## Ignore Visual Studio & Rider folders
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Ignore build outputs (compilation artifacts)
+[Bb]in/
+[Oo]bj/
+[Log]/
+[Logs]/
+
+## Ignore test results & coverages
+TestResults/
+*.clog
+*.cobertura.xml
+
+## OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Rider/Resharper
+*.idea/
+*.userprofile.user
