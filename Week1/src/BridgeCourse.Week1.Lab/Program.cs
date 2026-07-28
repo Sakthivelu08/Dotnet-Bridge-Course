@@ -7,6 +7,7 @@ using BridgeCourse.Week1.Lab.Day1;
 using BridgeCourse.Week1.Lab.Day2;
 using BridgeCourse.Week1.Lab.Day3;
 using BridgeCourse.Week1.Lab.Day4;
+using BridgeCourse.Week1.Lab.Day5;
 
 namespace BridgeCourse.Week1.Lab
 {
@@ -21,7 +22,7 @@ namespace BridgeCourse.Week1.Lab
             // Check if run in non-interactive/automated mode
             if (args.Length > 0 && args[0].ToLower() == "--auto")
             {
-                Console.WriteLine("Running in automated mode for Days 1, 2, 3, and 4...");
+                Console.WriteLine("Running in automated mode for Day 1 through Day 5...");
                 RunExceptionDemo();
                 RunDisposalDemo();
                 await RunAsyncDemo();
@@ -37,6 +38,9 @@ namespace BridgeCourse.Week1.Lab
                 RunTplDemo();
                 RunReflectionDemo();
                 RunAttributeDemo();
+
+                RunInterfacevsAbstractDemo();
+                RunSortingDemo();
                 return;
             }
 
@@ -59,11 +63,14 @@ namespace BridgeCourse.Week1.Lab
                 Console.WriteLine("10. Task 1.10: TPL Performance Benchmark");
                 Console.WriteLine("11. Task 1.11: Invoice Reflection Inspection");
                 Console.WriteLine("12. Task 1.12: Custom Attribute Validator");
-                Console.WriteLine("13. Exit");
-                Console.Write("Enter your choice (1-13): ");
+                Console.WriteLine("--- Day 5 ---");
+                Console.WriteLine("13. Task 1.13: Interface vs Abstract / Static vs Instance");
+                Console.WriteLine("14. Task 1.14: IComparable & IComparer Employee Sorting");
+                Console.WriteLine("15. Exit");
+                Console.Write("Enter your choice (1-15): ");
 
                 var input = Console.ReadLine();
-                if (input == "13" || input == null) break;
+                if (input == "15" || input == null) break;
 
                 try
                 {
@@ -104,6 +111,12 @@ namespace BridgeCourse.Week1.Lab
                             break;
                         case "12":
                             RunAttributeDemo();
+                            break;
+                        case "13":
+                            RunInterfacevsAbstractDemo();
+                            break;
+                        case "14":
+                            RunSortingDemo();
                             break;
                         default:
                             Console.WriteLine("Invalid option. Please try again.");
@@ -369,36 +382,86 @@ namespace BridgeCourse.Week1.Lab
         static void RunReflectionDemo()
         {
             Console.WriteLine("\n--- Running Reflection Demonstration ---");
-            
-            // 1. Inspect metadata
-            Console.WriteLine("\n1. Inspecting Invoice Metadata dynamically:");
             string metadata = InvoiceReflector.ReflectAndInspect();
             Console.WriteLine(metadata);
 
-            // 2. Manipulate instance
-            Console.WriteLine("\n2. Instantiating and modifying object entirely via Reflection:");
             Invoice reflectedInvoice = InvoiceReflector.CreateAndModifyViaReflection(777, "Original Customer", 950.25m, "Reflected Customer!");
-            
             Console.WriteLine($"Resulting invoice summary: {reflectedInvoice.GetSummary()}");
-            Console.WriteLine($"Verified Customer Name: '{reflectedInvoice.CustomerName}'");
         }
 
         static void RunAttributeDemo()
         {
             Console.WriteLine("\n--- Running Custom Attribute Validator Demo ---");
-
-            // User 1: Valid Name (Length: 6)
             var validUser = new User { Name = "Sakthi", Email = "sakthi@example.com" };
             var (isValid1, warnings1) = ValidationEngine.Validate(validUser);
             Console.WriteLine($"Validating '{validUser.Name}': IsValid = {isValid1}");
             
-            // User 2: Over-length Name (Length: 17)
             var invalidUser = new User { Name = "Sakthivelu Selvam", Email = "sakthivelu@example.com" };
             var (isValid2, warnings2) = ValidationEngine.Validate(invalidUser);
             Console.WriteLine($"\nValidating '{invalidUser.Name}': IsValid = {isValid2}");
             foreach (var warning in warnings2)
             {
                 Console.WriteLine($"[WARNING TRIGGERED] {warning}");
+            }
+        }
+
+        #endregion
+
+        #region Day 5 Demos
+
+        static void RunInterfacevsAbstractDemo()
+        {
+            Console.WriteLine("\n--- Running Interface vs Abstract & Static vs Instance Demo ---");
+
+            // A. Interface implementation (Scenario 1)
+            Console.WriteLine("\nA. Interface Demo (INotificationChannel):");
+            INotificationChannel email = new EmailChannel();
+            INotificationChannel sms = new SmsChannel();
+            email.Send("System alert: low disc space");
+            sms.Send("Verification code: 8872");
+
+            // B. Abstract Class implementation (Scenario 2)
+            Console.WriteLine("\nB. Abstract Class Demo (DatabaseMigrator):");
+            DatabaseMigrator migrator = new SqlServerMigrator("Server=Localhost;Database=Academy;");
+            migrator.RunMigrations();
+
+            // C. Static Class Utility Demo
+            Console.WriteLine("\nC. Static Utility Demo (MathHelper):");
+            Console.WriteLine($"Factorial(5) = {MathHelper.Factorial(5)}");
+            Console.WriteLine($"IsPrime(29) = {MathHelper.IsPrime(29)}");
+            Console.WriteLine($"IsPrime(15) = {MathHelper.IsPrime(15)}");
+            Console.WriteLine($"GCD(54, 24) = {MathHelper.GCD(54, 24)}");
+
+            // D. Instance Class Dependency Injection Demo
+            Console.WriteLine("\nD. Instance Processor Demo (OrderProcessor with Injected Channel):");
+            var processor = new OrderProcessor(email); // Injecting email channel dependency
+            processor.ProcessOrder(88001, 1250.00m);
+        }
+
+        static void RunSortingDemo()
+        {
+            Console.WriteLine("\n--- Running IComparable & IComparer Sorting Demo ---");
+            List<Employee> employees = EmployeeSorterDemo.GetSampleEmployees();
+
+            Console.WriteLine("\n1. Original List of Employees:");
+            PrintEmployees(employees);
+
+            // 2. Default Sort (IComparable -> sorting by salary ascending)
+            Console.WriteLine("\n2. Sorted by IComparable (Salary Ascending):");
+            employees.Sort();
+            PrintEmployees(employees);
+
+            // 3. Custom Comparer Sort (IComparer -> sorting by name alphabetically)
+            Console.WriteLine("\n3. Sorted by IComparer (Name Alphabetically):");
+            employees.Sort(new EmployeeNameComparer());
+            PrintEmployees(employees);
+        }
+
+        static void PrintEmployees(List<Employee> list)
+        {
+            foreach (var emp in list)
+            {
+                Console.WriteLine($"  - {emp.Name,-10} | Salary: {emp.Salary,9:C}");
             }
         }
 
