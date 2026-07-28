@@ -25,3 +25,5 @@ desktop.ini
 ## Rider/Resharper
 *.idea/
 *.userprofile.user
+
+*.docx
