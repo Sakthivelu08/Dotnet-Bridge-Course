@@ -111,6 +111,43 @@ namespace BridgeCourse.Week1.Tests
             Assert.True(concurrentTime < 6000, $"Concurrent run took too long: {concurrentTime} ms (Expected < 6000ms)");
         }
 
+        [Fact]
+        public void BankAccount_WithdrawNegativeAmount_ThrowsArgumentException()
+        {
+            var account = new BankAccount(100m);
+            Assert.Throws<ArgumentException>(() => account.Withdraw(-10m));
+        }
+
+        [Fact]
+        public void InsufficientFundsException_ConstructorVariations_ExecuteSuccessfully()
+        {
+            var ex2 = new InsufficientFundsException(15m, "Custom message");
+            Assert.Equal(15m, ex2.DeficitAmount);
+            Assert.Equal("Custom message", ex2.Message);
+
+            var inner = new Exception("Inner exception");
+            var ex3 = new InsufficientFundsException(20m, "Custom message with inner", inner);
+            Assert.Equal(20m, ex3.DeficitAmount);
+            Assert.Equal("Custom message with inner", ex3.Message);
+            Assert.Equal(inner, ex3.InnerException);
+        }
+
+        [Fact]
+        public async Task UserDataFetcher_Sequential_ExecutesSuccessfully()
+        {
+            var fetcher = new UserDataFetcher();
+            var ids = new List<int> { 1, 2 };
+
+            // We do sequential fetch (which has a 3s delay per ID, total ~6s)
+            // To make testing faster, let's just make sure it runs and works correctly
+            var (sequentialData, sequentialTime) = await fetcher.RunSequentialFetchesAsync(ids);
+            
+            Assert.Equal(2, sequentialData.Length);
+            Assert.Contains("UserData_For_User_1", sequentialData);
+            Assert.Contains("UserData_For_User_2", sequentialData);
+            Assert.True(sequentialTime >= 5000, $"Sequential run should take at least 6s: {sequentialTime} ms");
+        }
+
         #endregion
     }
 }

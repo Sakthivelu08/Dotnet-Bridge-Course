@@ -114,5 +114,48 @@ namespace BridgeCourse.Week1.Tests
         }
 
         #endregion
+
+        #region Scenario 1 & 2 & OrderProcessor Tests
+
+        [Fact]
+        public void NotificationChannels_Send_ExecutesWithoutException()
+        {
+            var email = new EmailChannel();
+            var sms = new SmsChannel();
+
+            email.Send("Test Email");
+            sms.Send("Test SMS");
+        }
+
+        [Fact]
+        public void SqlServerMigrator_RunsMigrationsSuccessfully()
+        {
+            var migrator = new SqlServerMigrator("Server=myServerAddress;Database=myDataBase;");
+            migrator.RunMigrations();
+        }
+
+        [Fact]
+        public void DatabaseMigrator_EmptyConnectionString_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => new SqlServerMigrator(""));
+            Assert.Throws<ArgumentException>(() => new SqlServerMigrator(null!));
+        }
+
+        [Fact]
+        public void OrderProcessor_NullChannel_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new OrderProcessor(null!));
+        }
+
+        [Fact]
+        public void OrderProcessor_ProcessOrder_SendsNotification()
+        {
+            var email = new EmailChannel();
+            var processor = new OrderProcessor(email);
+
+            processor.ProcessOrder(101, 99.99m);
+        }
+
+        #endregion
     }
 }

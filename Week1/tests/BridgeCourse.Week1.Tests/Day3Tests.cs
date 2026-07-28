@@ -141,5 +141,53 @@ namespace BridgeCourse.Week1.Tests
         }
 
         #endregion
+
+        #region Repository Exception Tests
+
+        [Fact]
+        public void StudentRepository_AddDuplicateId_ThrowsInvalidOperationException()
+        {
+            StudentRepository.Clear();
+            var repo = new StudentRepository();
+            var s1 = new Student { Id = 1, Name = "Alice" };
+            var s2 = new Student { Id = 1, Name = "Bob" };
+
+            repo.Add(s1);
+            Assert.Throws<InvalidOperationException>(() => repo.Add(s2));
+        }
+
+        [Fact]
+        public void StudentRepository_UpdateNonExistent_ThrowsKeyNotFoundException()
+        {
+            StudentRepository.Clear();
+            var repo = new StudentRepository();
+            var s = new Student { Id = 999, Name = "Nobody" };
+
+            Assert.Throws<KeyNotFoundException>(() => repo.Update(s));
+        }
+
+        [Fact]
+        public void CourseRepository_AddDuplicateId_ThrowsInvalidOperationException()
+        {
+            CourseRepository.Clear();
+            var repo = new CourseRepository();
+            var c1 = new Course { Id = 10, Title = "Math" };
+            var c2 = new Course { Id = 10, Title = "Science" };
+
+            repo.Add(c1);
+            Assert.Throws<InvalidOperationException>(() => repo.Add(c2));
+        }
+
+        [Fact]
+        public void CourseRepository_UpdateNonExistent_ThrowsKeyNotFoundException()
+        {
+            CourseRepository.Clear();
+            var repo = new CourseRepository();
+            var c = new Course { Id = 999, Title = "Nobody" };
+
+            Assert.Throws<KeyNotFoundException>(() => repo.Update(c));
+        }
+
+        #endregion
     }
 }
