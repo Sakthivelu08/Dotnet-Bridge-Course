@@ -91,5 +91,34 @@ namespace BridgeCourse.Week1.Tests
         }
 
         #endregion
+
+        #region Extra TPL & Invoice Tests
+
+        [Fact]
+        public void TplComparison_ExtraBenchmarks_ExecuteSuccessfully()
+        {
+            // Act: Run raw threads and sequential (which are simulated, raw threads is fast, sequential takes ~10s)
+            // Note: Since sequential takes 10 seconds, let's keep the benchmark run to verify it executes.
+            long rawThreadsTime = TplComparison.RunRawThreads();
+            long sequentialTime = TplComparison.RunSequential();
+
+            Assert.True(rawThreadsTime > 0);
+            Assert.True(sequentialTime > 0);
+        }
+
+        [Fact]
+        public void Invoice_UtilityMethods_WorkCorrectly()
+        {
+            var invoice = new Invoice(123, "Alice", 100m);
+            
+            decimal tax = invoice.CalculateTax(0.18m);
+            string summary = invoice.GetSummary();
+
+            Assert.Equal(18m, tax);
+            Assert.Contains("Invoice #123 for Alice: Total", summary);
+            Assert.Contains("100.00", summary);
+        }
+
+        #endregion
     }
 }
