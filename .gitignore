@@ -27,4 +27,6 @@ desktop.ini
 *.userprofile.user
 
 *.docx
+*walkthrough.md
+*mcq_practice.md
 *.md
