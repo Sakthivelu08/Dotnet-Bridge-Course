@@ -1,29 +1,25 @@
-# Dotnet Bridge Course
+# Student & Teacher Management API
 
-This repository contains exercises and assignment submissions for the .NET Bridge Course.
+This repository contains a RESTful Web API for managing Student and Teacher domains, built with ASP.NET Core.
 
-## Week 1
-* **Topics:** Exceptions, Async Programming, Design Patterns, SOLID Principles
-* **Submission Doc:** [Week1_Submission_Document.docx](Week1_Submission_Document.docx)
-* **Walkthrough:** [week1_concepts_walkthrough.md](week1_concepts_walkthrough.md)
+## Features
+- **Student CRUD:** Full create, read, update, delete, and case-insensitive search endpoints.
+- **Teacher CRUD:** Full CRUD operations and domain validation.
+- **Strategy Pattern:** Swappable grade formatting (Percentage vs GPA) resolved dynamically at runtime using custom request headers.
+- **Persistence:** Thread-safe generic in-memory repository pattern coordinated by a Unit of Work context.
 
-## Week 2
-* **Topics:** ASP.NET Core Web API, DTOs, Model Validation, Strategy/Factory Patterns, and xUnit Testing
-* **Submission Doc:** [Week2_Submission_Document.docx](Week2_Submission_Document.docx)
-* **Walkthrough:** [week2_concepts_walkthrough.md](week2_concepts_walkthrough.md)
-
-### Running the Week 2 Web API
+## Running the Web API
 To start the REST API locally:
 ```powershell
 dotnet run --project Week2\src\BridgeCourse.Week2.Api\BridgeCourse.Week2.Api.csproj
 ```
 
-### Swagger UI Documentation
-Once running, the API documentation is available at:
+## Swagger UI Documentation
+Once running, the API documentation and endpoint testing console are accessible at:
 * 🌐 **Swagger UI:** `http://localhost:5025/swagger/index.html`
 
-### Testing & Code Coverage
-To run the xUnit test suite and check code coverage (Target: >=80%):
+## Running Tests
+To execute the xUnit test suite and check code coverage (Target: >=80%):
 ```powershell
 dotnet test Week2\tests\BridgeCourse.Week2.Tests\BridgeCourse.Week2.Tests.csproj --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Exclude="[*]Program"
 ```
