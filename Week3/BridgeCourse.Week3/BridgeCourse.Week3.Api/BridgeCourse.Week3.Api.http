@@ -1,0 +1,6 @@
+@BridgeCourse.Week3.Api_HostAddress = http://localhost:5009
+
+GET {{BridgeCourse.Week3.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
