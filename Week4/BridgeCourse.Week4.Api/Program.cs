@@ -73,7 +73,8 @@ else if (dataLayer == "EfDbFirst")
 else // Default is EfCodeFirst
 {
     builder.Services.AddDbContext<EfCodeFirstDbContext>(options =>
-        options.UseSqlServer(connectionString));
+        options.UseSqlServer(connectionString)
+            .ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
 
     builder.Services.AddScoped<IRepository<Student>, EfStudentRepository>();
     builder.Services.AddScoped<IRepository<Teacher>, EfTeacherRepository>();
