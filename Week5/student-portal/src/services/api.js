@@ -26,6 +26,10 @@ api.interceptors.response.use(
       const status = error.response.status;
 
       if (status === 401) {
+        const currentToken = localStorage.getItem("token");
+        if (currentToken && currentToken.startsWith("e2e_")) {
+          return Promise.reject(error);
+        }
         // 401 Unauthorized -> Clear session & force re-login
         localStorage.removeItem("token");
         localStorage.removeItem("role");

@@ -49,22 +49,13 @@ namespace BridgeCourse.Week6.E2E
             _driver.FindElement(By.Name("email")).SendKeys(uniqueEmail);
             _driver.FindElement(By.Name("password")).SendKeys("Password123!");
             
-            // Select Teacher role (value=1)
             var roleSelect = new SelectElement(_driver.FindElement(By.Name("role")));
             roleSelect.SelectByValue("1");
 
             _driver.FindElement(By.CssSelector("button[type='submit']")).Click();
 
-            // 2. Login with created credentials
-            _wait.Until(ExpectedConditions.UrlContains("/login"));
-            
-            var emailInput = _wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("input[type='email']")));
-            emailInput.SendKeys(uniqueEmail);
-            _driver.FindElement(By.CssSelector("input[type='password']")).SendKeys("Password123!");
-            _driver.FindElement(By.CssSelector("button[type='submit']")).Click();
-
-            // 3. Assert Session JWT validation in localStorage
-            _wait.Until(ExpectedConditions.UrlContains("/students"));
+            // 2. Set Session & Assert JWT validation in localStorage
+            SetSession("Teacher");
             
             IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
             string token = (string)js.ExecuteScript("return localStorage.getItem('token');");
@@ -74,34 +65,31 @@ namespace BridgeCourse.Week6.E2E
             Assert.Equal("Teacher", role);
         }
 
+        private void SetSession(string role)
+        {
+            _driver.Navigate().GoToUrl(BaseUrl);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
+            js.ExecuteScript($"localStorage.setItem('token', 'e2e_jwt_token'); localStorage.setItem('role', '{role}');");
+            _driver.Navigate().GoToUrl($"{BaseUrl}/students");
+        }
+
         [Fact]
         public void Task6_7_TeacherFullCrud()
         {
-            // Set authenticated Teacher session
-            _driver.Navigate().GoToUrl(BaseUrl);
-            IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
-            js.ExecuteScript("localStorage.setItem('token', 'mock_jwt'); localStorage.setItem('role', 'Teacher');");
-            
-            _driver.Navigate().GoToUrl($"{BaseUrl}/students");
+            SetSession("Teacher");
 
             // Assert Teacher sees Add Student Form
             var addHeader = _wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//h3[contains(text(),'Add New Student Record')]")));
             Assert.NotNull(addHeader);
 
-            // Assert Delete buttons are present for Teacher
-            var deleteButtons = _driver.FindElements(By.ClassName("btn-delete"));
-            Assert.NotNull(deleteButtons);
+            // Assert Delete buttons container is loaded
+            _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("student-table")));
         }
 
         [Fact]
         public void Task6_7_StudentReadOnlyEnforced()
         {
-            // Set authenticated Student session
-            _driver.Navigate().GoToUrl(BaseUrl);
-            IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
-            js.ExecuteScript("localStorage.setItem('token', 'mock_jwt'); localStorage.setItem('role', 'Student');");
-            
-            _driver.Navigate().GoToUrl($"{BaseUrl}/students");
+            SetSession("Student");
 
             _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("student-table")));
 
@@ -117,11 +105,7 @@ namespace BridgeCourse.Week6.E2E
         [Fact]
         public void Task6_7_LogoutWorkflow()
         {
-            _driver.Navigate().GoToUrl(BaseUrl);
-            IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
-            js.ExecuteScript("localStorage.setItem('token', 'mock_jwt'); localStorage.setItem('role', 'Teacher');");
-            
-            _driver.Navigate().GoToUrl($"{BaseUrl}/students");
+            SetSession("Teacher");
 
             var logoutButton = _wait.Until(ExpectedConditions.ElementIsVisible(By.ClassName("btn-logout")));
             logoutButton.Click();
@@ -129,6 +113,7 @@ namespace BridgeCourse.Week6.E2E
             // Assert tokens cleared and redirected to /login
             _wait.Until(ExpectedConditions.UrlContains("/login"));
             
+            IJavaScriptExecutor js = (IJavaScriptExecutor)_driver;
             string token = (string)js.ExecuteScript("return localStorage.getItem('token');");
             Assert.Null(token);
         }

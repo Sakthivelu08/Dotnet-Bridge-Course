@@ -13,8 +13,11 @@ const Login = ({ setIsAuthenticated }) => {
     try {
       const response = await api.post('/auth/login', { email, password });
       
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('role', response.data.role);
+      const token = response.data.token || response.data.Token;
+      const role = response.data.role || response.data.Role;
+      
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
       
       if (setIsAuthenticated) {
         setIsAuthenticated(true);
