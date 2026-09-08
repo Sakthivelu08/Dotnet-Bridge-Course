@@ -23,7 +23,8 @@ namespace BridgeCourse.Week4.Api.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            var user = _unitOfWork.Users.GetByUsername(request.Username);
+            var username = !string.IsNullOrEmpty(request.Username) ? request.Username : request.Email;
+            var user = _unitOfWork.Users.GetByUsername(username);
             if (user == null || !PasswordHasher.VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt))
             {
                 return Unauthorized("Invalid credentials.");
@@ -47,13 +48,47 @@ namespace BridgeCourse.Week4.Api.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            return Ok(new { Token = tokenString });
+            return Ok(new { Token = tokenString, Role = user.Role });
+        }
+
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] RegisterRequest request)
+        {
+            var username = !string.IsNullOrEmpty(request.Email) ? request.Email : request.Username;
+            var existing = _unitOfWork.Users.GetByUsername(username);
+            if (existing == null)
+            {
+                var hashResult = PasswordHasher.HashPassword(request.Password);
+                var roleStr = request.Role == "1" || request.Role == "Teacher" ? "Teacher" : "Student";
+
+                var user = new User
+                {
+                    Username = username,
+                    PasswordHash = hashResult.Hash,
+                    PasswordSalt = hashResult.Salt,
+                    Role = roleStr
+                };
+
+                _unitOfWork.Users.Add(user);
+                _unitOfWork.Complete();
+            }
+
+            return Ok(new { Message = "Registration successful" });
         }
     }
 
     public class LoginRequest
     {
         public string Username { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+    }
+
+    public class RegisterRequest
+    {
+        public string Username { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string Role { get; set; } = "Student";
     }
 }

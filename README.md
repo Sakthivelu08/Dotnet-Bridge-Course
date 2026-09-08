@@ -1,6 +1,6 @@
 # Dotnet Bridge Course & React Integration
 
-This repository contains the laboratories, assignments, and full-stack integration practice solutions completed as part of the **Dotnet Bridge Course**. It serves as a comprehensive training codebase covering C# OOP, RESTful API design, cryptography, databases (ADO.NET & EF Core), and React web fundamentals.
+This repository contains the laboratories, assignments, and full-stack integration practice solutions completed as part of the **Dotnet Bridge Course**. It serves as a comprehensive training codebase covering C# OOP, RESTful API design, cryptography, databases (ADO.NET & EF Core), React web fundamentals, and Selenium E2E portal testing.
 
 ---
 
@@ -35,7 +35,7 @@ This repository contains the laboratories, assignments, and full-stack integrati
   dotnet run --project Week4\BridgeCourse.Week4.Api\BridgeCourse.Week4.Api.csproj
   ```
 
-### 5. Week 5 — React Client SPA & Full-Stack Integration
+### 5. Week 5 — React Client SPA & Full-Stack Integration (Part 1)
 * **Description**: Single Page Application built on React/Vite containing login/registration forms, custom JWT request interceptors, and role-based UI conditional rendering. Includes a Vitest + RTL testing suite with an 80% coverage threshold.
 * **Run Command**:
   ```powershell
@@ -45,12 +45,31 @@ This repository contains the laboratories, assignments, and full-stack integrati
   ```
   * Local host access: `http://localhost:5173`. Make sure the target port in your client `.env` matches the running port of your active backend API.
 
+### 6. Week 6 — Full-Stack Integration (Part 2) & Portal-Wide E2E Testing
+* **Description**: Complete end-to-end integration of the portal with graceful error handling (401 auto-relogin, 403 access denied, 400 validation, 500 server degrade). Includes a Selenium.WebDriver E2E test project executing browser flows and server rejection validation.
+* **Run Command (Selenium E2E Tests)**:
+  ```powershell
+  dotnet test Week6\tests\BridgeCourse.Week6.E2E\BridgeCourse.Week6.E2E.csproj
+  ```
+
 ---
 
-## Running Backend Test Projects
+## Running Test Suites Across All Layers
 
-To execute the unit tests for any of the backend weeks, run the test command referencing the respective project path:
+### 1. Backend xUnit Unit Tests (Weeks 1 - 4)
+From the workspace root, run:
 ```powershell
-# Example: Running Week 4 xUnit tests
 dotnet test Week4\BridgeCourse.Week4.Tests\BridgeCourse.Week4.Tests.csproj
+```
+
+### 2. Frontend Vitest / RTL Unit Tests (Week 5)
+From the `Week5\student-portal` directory:
+```powershell
+npm run test:coverage
+```
+
+### 3. Selenium E2E Browser Suite (Week 6)
+Make sure both the .NET Web API and Vite React server are running, then execute:
+```powershell
+dotnet test Week6\tests\BridgeCourse.Week6.E2E\BridgeCourse.Week6.E2E.csproj
 ```

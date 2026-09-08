@@ -6,10 +6,6 @@ const StudentList = ({ students, onDelete, userRole, isLoading }) => {
     return <p>Loading student records...</p>;
   }
 
-  if (students.length === 0) {
-    return <p>No students found.</p>;
-  }
-
   return (
     <table className="student-table">
       <thead>
@@ -22,14 +18,22 @@ const StudentList = ({ students, onDelete, userRole, isLoading }) => {
         </tr>
       </thead>
       <tbody>
-        {students.map((student) => (
-          <StudentRow 
-            key={student.id} 
-            student={student} 
-            onDelete={onDelete} 
-            userRole={userRole} 
-          />
-        ))}
+        {students.length === 0 ? (
+          <tr>
+            <td colSpan="5" style={{ textAlign: 'center', padding: '20px' }}>
+              No students found.
+            </td>
+          </tr>
+        ) : (
+          students.map((student) => (
+            <StudentRow 
+              key={student.id} 
+              student={student} 
+              onDelete={onDelete} 
+              userRole={userRole} 
+            />
+          ))
+        )}
       </tbody>
     </table>
   );
