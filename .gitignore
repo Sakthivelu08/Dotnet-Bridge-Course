@@ -26,7 +26,7 @@ desktop.ini
 *.idea/
 *.userprofile.user
 
-*.docx
-*walkthrough.md
-*mcq_practice.md
-*.md
+# *.docx
+# *walkthrough.md
+# *mcq_practice.md
+# *.md
